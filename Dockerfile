@@ -12,6 +12,7 @@ RUN set -x && \
 # Install basic tools
 RUN set -x && \
 	apt-get update && \
+	apt-get install apt-transport-https ca-certificates -y && \
 	apt-get install build-essential -y && \
 	apt-get install flex bison bc dc wget curl git -y
 
