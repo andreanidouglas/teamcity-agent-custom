@@ -24,7 +24,8 @@ RUN set -ex && \
 	cd /tmp && \
 	tar -C /usr/local -zxf go1.16.3.linux-amd64.tar.gz && \
 	update-alternatives --install "/usr/bin/go" "go" "/usr/local/go/bin/go" 0 && \
-	update-alternatives --set go /usr/local/go/bin/go
+	update-alternatives --set go /usr/local/go/bin/go && \
+	rm -rf /tmp/*
 
 USER buildagent
 RUN set -ex && \
