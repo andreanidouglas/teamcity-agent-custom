@@ -13,9 +13,9 @@ RUN set -x && \
 RUN set -x && \
 	apt-get update && \
 	apt-get install --no-install-recommends apt-transport-https ca-certificates -y && \
-	apt-get install --no-install-recommends build-essential -y && \
+	apt-get install --no-install-recommends build-essential pkg-config -y && \
 	apt-get install --no-install-recommends flex bison bc dc wget curl git make -y
-
+ 
 # Install and setup OpenGL build libraries
 RUN set -x && \
     apt-get install --no-install-recommends libglew-dev libglfw3-dev libgl-dev -y
@@ -25,10 +25,10 @@ ENV GLEW_OK OK
 # Install go toolkit
 RUN set -x && \
 	cd /tmp && \
-	wget https://golang.org/dl/go1.16.3.linux-amd64.tar.gz 
+	wget https://golang.org/dl/go1.17.3.linux-amd64.tar.gz 
 RUN set -ex && \
 	cd /tmp && \
-	tar -C /usr/local -zxf go1.16.3.linux-amd64.tar.gz && \
+	tar -C /usr/local -zxf go1.17.3.linux-amd64.tar.gz && \
 	update-alternatives --install "/usr/bin/go" "go" "/usr/local/go/bin/go" 0 && \
 	update-alternatives --set go /usr/local/go/bin/go && \
 	rm -rf /tmp/*
