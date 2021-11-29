@@ -12,9 +12,15 @@ RUN set -x && \
 # Install basic tools
 RUN set -x && \
 	apt-get update && \
-	apt-get install apt-transport-https ca-certificates -y && \
-	apt-get install build-essential -y && \
-	apt-get install flex bison bc dc wget curl git -y
+	apt-get install --no-install-recommends apt-transport-https ca-certificates -y && \
+	apt-get install --no-install-recommends build-essential -y && \
+	apt-get install --no-install-recommends flex bison bc dc wget curl git make -y
+
+# Install and setup OpenGL build libraries
+RUN set -x && \
+    apt-get install --no-install-recommends libglew-dev libglfw3-dev libgl-dev -y
+ENV GLFW_OK OK
+ENV GLEW_OK OK
 
 # Install go toolkit
 RUN set -x && \
@@ -26,6 +32,10 @@ RUN set -ex && \
 	update-alternatives --install "/usr/bin/go" "go" "/usr/local/go/bin/go" 0 && \
 	update-alternatives --set go /usr/local/go/bin/go && \
 	rm -rf /tmp/*
+
+# Clean apt cache
+RUN set -ex && \
+    apt-get clean && apt-get autoclean -y && apt-get autoremove -y
 
 USER buildagent
 RUN set -ex && \
@@ -44,6 +54,8 @@ ENV GOPATH /home/buildagent/go
 ENV CARGO_HOME /home/buildagent/.cargo
 
 ENV PATH /opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$GOROOT/bin:$GOPATH/bin:$CARGO_HOME/bin
+
+
 
 
 CMD ["/run-services.sh"]
